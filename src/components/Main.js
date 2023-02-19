@@ -8,17 +8,18 @@ function Main(props) {
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    api
-      .getUserInfo()
-      .then((userArr) => {
+    Promise.all([api.getUserInfo(), api.getAllCards()])
+      .then(([userArr, initialCards]) => {
         setUserName(userArr.name);
         setUserDescription(userArr.about);
         setUserAvatar(userArr.avatar);
+        setCards(initialCards);
+        console.log(initialCards);
       })
       .catch((err) => {
         console.error(`Ошибка: ${err}`);
       });
-  });
+  }, []);
 
   return (
     <main className="content">
@@ -53,7 +54,26 @@ function Main(props) {
       </section>
 
       <section className="cards">
-        <ul className="elements"></ul>
+        <ul className="elements">
+          {cards.map((item) => (
+            <li className="element" key={item._id}>
+              <img className="element__mask" src={item.link} />
+              <button type="button" className="element__delete-btn"></button>
+              <div className="element-container">
+                <h2 className="element-container__name">{item.name}</h2>
+                <div className="element-container__like-box">
+                  <button
+                    type="button"
+                    className="element-container__like-btn"
+                  ></button>
+                  <span className="element-container__span">
+                    {item.likes.length}
+                  </span>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
       </section>
     </main>
   );
