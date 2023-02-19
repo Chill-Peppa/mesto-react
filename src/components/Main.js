@@ -1,21 +1,25 @@
 import React from "react";
+import { api } from "../utils/api";
 
-function handleEditAvatarClick() {
-  const popupWithAvatar = document.querySelector(".popup_type_edit-avatar");
-  popupWithAvatar.classList.add("popup_opened");
-}
+function Main(props) {
+  const [userName, setUserName] = React.useState("");
+  const [userDescription, setUserDescription] = React.useState("");
+  const [userAvatar, setUserAvatar] = React.useState("");
+  const [cards, setCards] = React.useState([]);
 
-function handleAddPlaceClick() {
-  const popupWithAdd = document.querySelector(".popup_type_add-photo");
-  popupWithAdd.classList.add("popup_opened");
-}
+  React.useEffect(() => {
+    api
+      .getUserInfo()
+      .then((userArr) => {
+        setUserName(userArr.name);
+        setUserDescription(userArr.about);
+        setUserAvatar(userArr.avatar);
+      })
+      .catch((err) => {
+        console.error(`Ошибка: ${err}`);
+      });
+  });
 
-function handleEditProfileClick() {
-  const popupWithEdit = document.querySelector(".popup_type_edit-button");
-  popupWithEdit.classList.add("popup_opened");
-}
-
-function Main() {
   return (
     <main className="content">
       <section className="profile">
@@ -23,28 +27,28 @@ function Main() {
           <button
             type="button"
             className="profile__avatar-button"
-            onClick={handleEditAvatarClick}
+            onClick={props.onEditAvatar}
           >
             <img
               className="profile__avatar"
-              src="<%=require('./images/avatar.jpg')%>"
+              src={userAvatar}
               alt="Аватар профиля"
             />
           </button>
           <div className="profile-info">
-            <h1 className="profile-info__name">Жак-Ив Кусто</h1>
+            <h1 className="profile-info__name">{userName}</h1>
             <button
               type="button"
               className="profile-info__edit-button"
-              onClick={handleEditProfileClick}
+              onClick={props.onEditProfile}
             ></button>
-            <p className="profile-info__description">Исследователь океана</p>
+            <p className="profile-info__description">{userDescription}</p>
           </div>
         </div>
         <button
           type="button"
           className="profile__add-button"
-          onClick={handleAddPlaceClick}
+          onClick={props.onAddPlace}
         ></button>
       </section>
 
