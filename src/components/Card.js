@@ -1,8 +1,12 @@
 import React from "react";
 
 function Card(props) {
+  function handleClick() {
+    props.onCardClick(props.card);
+  }
+
   return (
-    <li className="element" key={props.card._id}>
+    <li className="element" key={props.card._id} onClick={handleClick}>
       <img className="element__mask" src={props.card.link} />
       <button type="button" className="element__delete-btn"></button>
       <div className="element-container">

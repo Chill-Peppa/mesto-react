@@ -12,6 +12,17 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
     React.useState(false);
 
+  //хук чтобы открыть сам попап
+  const [isCardPopupOpen, setIsCardPopupOpen] = React.useState(false);
+  //хук для конкретной карточки
+  const [selectedCard, setSelectedCard] = React.useState("");
+
+  const handleCardClick = (card) => {
+    console.log("click");
+    setIsCardPopupOpen(true);
+    setSelectedCard(card);
+  };
+
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
   };
@@ -28,6 +39,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
+    setIsCardPopupOpen(false);
   };
 
   return (
@@ -39,6 +51,7 @@ function App() {
             onEditProfile={handleEditProfileClick}
             onAddPlace={handleAddPlaceClick}
             onEditAvatar={handleEditAvatarClick}
+            onCardClick={handleCardClick}
           />
           <Footer />
           <PopupWithForm
@@ -101,7 +114,11 @@ function App() {
             <span className="link-input-error form__item-error"></span>
           </PopupWithForm>
 
-          <ImagePopup />
+          <ImagePopup
+            isOpen={isCardPopupOpen}
+            onClose={closeAllPopups}
+            card={selectedCard}
+          />
           <PopupWithForm
             name="edit-avatar"
             title="Обновить аватар"
