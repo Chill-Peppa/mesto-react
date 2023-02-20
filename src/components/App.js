@@ -15,7 +15,7 @@ function App() {
   //хук чтобы открыть сам попап
   const [isCardPopupOpen, setIsCardPopupOpen] = React.useState(false);
   //хук для конкретной карточки
-  const [selectedCard, setSelectedCard] = React.useState("");
+  const [selectedCard, setSelectedCard] = React.useState(null);
 
   const handleCardClick = (card) => {
     setIsCardPopupOpen(true);
