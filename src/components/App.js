@@ -15,7 +15,10 @@ function App() {
   //хук чтобы открыть сам попап
   const [isCardPopupOpen, setIsCardPopupOpen] = React.useState(false);
   //хук для конкретной карточки
-  const [selectedCard, setSelectedCard] = React.useState(null);
+  const [selectedCard, setSelectedCard] = React.useState({
+    name: "",
+    link: "",
+  });
 
   const handleCardClick = (card) => {
     setIsCardPopupOpen(true);
@@ -39,6 +42,7 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsCardPopupOpen(false);
+    setSelectedCard({ name: "", link: "" });
   };
 
   return (
