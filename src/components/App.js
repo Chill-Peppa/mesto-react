@@ -18,7 +18,6 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState("");
 
   const handleCardClick = (card) => {
-    console.log("click");
     setIsCardPopupOpen(true);
     setSelectedCard(card);
   };
