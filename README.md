@@ -8,4 +8,4 @@
 ______________
 -Ссылка на GitHub с исходным кодом, который переписывался на React: [Исходный код проекта Место](https://github.com/Chill-Peppa/mesto)
 
--Ссылка на сайт: [Сайт на React](https://chill-peppa.github.io/mesto-react/)
+-Ссылка на сайт: [Сайт на React]()
