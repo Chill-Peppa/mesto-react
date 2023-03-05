@@ -80,22 +80,6 @@ class Api {
       });
     }
   }
-
-  //метод чтобы поставить лайк
-  /*likeCard(id) {
-    return this._request(`${this._url}/cards/${id}/likes `, {
-      headers: this._headers,
-      method: "PUT",
-    });
-  }
-
-  //метод чтобы убрать лайк
-  dislikeCard(id) {
-    return this._request(`${this._url}/cards/${id}/likes `, {
-      headers: this._headers,
-      method: "DELETE",
-    });
-  }*/
 }
 
 export const api = new Api({

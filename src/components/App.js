@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 import { api } from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
@@ -112,6 +113,18 @@ function App() {
       });
   };
 
+  const handleUpdateAvatar = (data) => {
+    api
+      .sendUserAvatar(data)
+      .then((data) => {
+        setCurrentUser(data);
+      })
+      .then(() => closeAllPopups())
+      .catch((err) => {
+        console.error(`Ошибка: ${err}`);
+      });
+  };
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
@@ -167,23 +180,11 @@ function App() {
             onClose={closeAllPopups}
             card={selectedCard}
           />
-          <PopupWithForm
-            name="edit-avatar"
-            title="Обновить аватар"
-            btnText="Создать"
+          <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
-          >
-            <input
-              id="avatar-input"
-              type="url"
-              name="avatar"
-              placeholder="Ссылка на картинку"
-              className="form__item form__item_avatar_link"
-              required
-            />
-            <span className="avatar-input-error form__item-error"></span>
-          </PopupWithForm>
+            onUpdateAvatar={handleUpdateAvatar}
+          />
 
           <PopupWithForm name="delete" title="Вы уверены?" btnText="Да" />
         </div>
