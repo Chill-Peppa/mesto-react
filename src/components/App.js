@@ -4,6 +4,7 @@ import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
+import EditProfilePopup from "./EditProfilePopup";
 import { api } from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
@@ -98,6 +99,19 @@ function App() {
       });
   };
 
+  //хендлер на обновление данных юзера
+  const handleUpdateUser = (data) => {
+    api
+      .updateUserInfo(data)
+      .then((data) => {
+        setCurrentUser(data);
+      })
+      .then(() => closeAllPopups())
+      .catch((err) => {
+        console.error(`Ошибка: ${err}`);
+      });
+  };
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
@@ -113,36 +127,11 @@ function App() {
             cards={cards}
           />
           <Footer />
-          <PopupWithForm
-            title="Редактировать профиль"
-            name="edit-button"
-            btnText="Сохранить"
+          <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
-          >
-            <input
-              id="firstname-input"
-              type="text"
-              name="name"
-              placeholder="Имя пользователя"
-              className="form__item form__item_info_name"
-              minLength="2"
-              maxLength="40"
-              required
-            />
-            <span className="firstname-input-error form__item-error"></span>
-            <input
-              id="career-input"
-              type="text"
-              name="about"
-              placeholder="Род деятельности"
-              className="form__item form__item_info_job"
-              minLength="2"
-              maxLength="200"
-              required
-            />
-            <span className="career-input-error form__item-error"></span>
-          </PopupWithForm>
+            onUpdateUser={handleUpdateUser}
+          />
 
           <PopupWithForm
             name="add-photo"
