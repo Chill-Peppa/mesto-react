@@ -24,7 +24,7 @@ function App() {
     link: "",
   });
 
-  //новый хук для стейта currentUser + старый хук для карточек из мейн
+  //новый хук для стейта currentUser
   const [currentUser, setCurrentUser] = React.useState({ name: "", about: "" });
   const [cards, setCards] = React.useState([]);
 
@@ -67,13 +67,10 @@ function App() {
     setSelectedCard({ name: "", link: "" });
   };
 
-  //добавим новые функции пр.11
-  //проверка лайка + запрос
   const handleCardLike = (card) => {
     // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some((like) => like._id === currentUser._id);
 
-    // Отправляем запрос в API и получаем обновлённые данные карточки
     api
       .changeLikeCardStatus(card._id, isLiked)
       .then((newCard) => {
@@ -86,7 +83,6 @@ function App() {
       });
   };
 
-  //поддержка удаления карточки
   const handleCardDelete = (card) => {
     api
       .deleteCard(card._id)
@@ -100,7 +96,6 @@ function App() {
       });
   };
 
-  //хендлер на обновление данных юзера
   const handleUpdateUser = (data) => {
     api
       .updateUserInfo(data)
