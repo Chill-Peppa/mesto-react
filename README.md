@@ -3,7 +3,7 @@
 
 -Ссылка на GitHub с исходным кодом, который переписывался на React: [Исходный код проекта Место](https://github.com/Chill-Peppa/mesto)
 
--Ссылка на сайт: [Пока без деплоя!]()
+-Ссылка на сайт: [Mesto](https://chill-peppa.github.io/mesto-react/)
 __________
 
 Стек: React, CSS, JSX, Webpack.
