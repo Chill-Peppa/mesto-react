@@ -17,20 +17,17 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
     React.useState(false);
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = React.useState(false);
-
-  //хук чтобы открыть сам попап
   const [isCardPopupOpen, setIsCardPopupOpen] = React.useState(false);
-  //хук для конкретной карточки
   const [selectedCard, setSelectedCard] = React.useState({
     name: "",
     link: "",
   });
 
-  //новый хук для стейта currentUser
+  //новые хуки
   const [currentUser, setCurrentUser] = React.useState({ name: "", about: "" });
   const [cards, setCards] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
 
-  //новый хук для эффекта при монтировании
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getAllCards()])
       .then(([userArr, initialCards]) => {
@@ -52,6 +49,10 @@ function App() {
   const handleDeleteClick = (card) => {
     setIsConfirmPopupOpen(true);
     setSelectedCard(card);
+  };
+
+  const handleLoading = () => {
+    setIsLoading(true);
   };
 
   const handleEditProfileClick = () => {
@@ -92,6 +93,7 @@ function App() {
   };
 
   const handleCardDelete = (card) => {
+    handleLoading();
     api
       .deleteCard(card._id)
       .then(() => {
@@ -100,10 +102,14 @@ function App() {
       })
       .catch((err) => {
         console.error(`Ошибка: ${err}`);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
   const handleUpdateUser = (data) => {
+    handleLoading();
     api
       .updateUserInfo(data)
       .then((data) => {
@@ -112,10 +118,14 @@ function App() {
       })
       .catch((err) => {
         console.error(`Ошибка: ${err}`);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
   const handleUpdateAvatar = (data) => {
+    handleLoading();
     api
       .sendUserAvatar(data)
       .then((data) => {
@@ -124,10 +134,14 @@ function App() {
       })
       .catch((err) => {
         console.error(`Ошибка: ${err}`);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
   const handleAddPlaceSubmit = (newCard) => {
+    handleLoading();
     api
       .postCard(newCard)
       .then((newCard) => {
@@ -136,6 +150,9 @@ function App() {
       })
       .catch((err) => {
         console.error(`Ошибка: ${err}`);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -158,12 +175,14 @@ function App() {
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
             onUpdateUser={handleUpdateUser}
+            isLoading={isLoading}
           />
 
           <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
             onAddPlace={handleAddPlaceSubmit}
+            isLoading={isLoading}
           />
 
           <ImagePopup
@@ -175,12 +194,14 @@ function App() {
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
             onUpdateAvatar={handleUpdateAvatar}
+            isLoading={isLoading}
           />
           <ConfirmDeletePopup
             isOpen={isConfirmPopupOpen}
             onClose={closeAllPopups}
             card={selectedCard}
             onDeleteCard={handleCardDelete}
+            isLoading={isLoading}
           />
         </div>
       </div>

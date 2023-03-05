@@ -8,6 +8,8 @@ function PopupWithForm({
   children,
   btnText,
   onSubmit,
+  isLoading,
+  loadingText,
 }) {
   return (
     <div
@@ -30,7 +32,7 @@ function PopupWithForm({
             type="submit"
             className="form__button-submit form__button-submit_confirm"
           >
-            {`${btnText}`}
+            {isLoading ? `${loadingText}` : `${btnText}`}
           </button>
         </form>
       </div>

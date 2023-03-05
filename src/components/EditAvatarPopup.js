@@ -1,7 +1,7 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
-function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
+function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
   // записываем объект, возвращаемый хуком, в переменную
   const avatarLinkRef = React.useRef();
 
@@ -26,6 +26,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      loadingText="Сохранение..."
     >
       <input
         id="avatar-input"
@@ -34,6 +35,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
         placeholder="Ссылка на картинку"
         className="form__item form__item_avatar_link"
         ref={avatarLinkRef}
+        isLoading={isLoading}
         required
       />
       <span className="avatar-input-error form__item-error"></span>
