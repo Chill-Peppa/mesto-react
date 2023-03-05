@@ -6,6 +6,7 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 import { api } from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
@@ -120,6 +121,19 @@ function App() {
       });
   };
 
+  //5 таск
+  const handleAddPlaceSubmit = (newCard) => {
+    api
+      .postCard(newCard)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+      })
+      .then(() => closeAllPopups())
+      .catch((err) => {
+        console.error(`Ошибка: ${err}`);
+      });
+  };
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
@@ -141,34 +155,11 @@ function App() {
             onUpdateUser={handleUpdateUser}
           />
 
-          <PopupWithForm
-            name="add-photo"
-            title="Новое место"
-            btnText="Создать"
+          <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
-          >
-            <input
-              id="title-input"
-              type="text"
-              name="name"
-              placeholder="Название"
-              className="form__item form__item_info_title"
-              minLength="2"
-              maxLength="30"
-              required
-            />
-            <span className="title-input-error form__item-error"></span>
-            <input
-              id="link-input"
-              type="url"
-              name="link"
-              placeholder="Ссылка на картинку"
-              className="form__item form__item_info_link"
-              required
-            />
-            <span className="link-input-error form__item-error"></span>
-          </PopupWithForm>
+            onAddPlace={handleAddPlaceSubmit}
+          />
 
           <ImagePopup
             isOpen={isCardPopupOpen}

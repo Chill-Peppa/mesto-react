@@ -1,29 +1,10 @@
 import React from "react";
-//import { api } from "../utils/api";
 import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main(props) {
-  /*const [userName, setUserName] = React.useState("");
-  const [userDescription, setUserDescription] = React.useState("");
-  const [userAvatar, setUserAvatar] = React.useState("");
-  const [cards, setCards] = React.useState([]);*/
   //подписываемся на контекст
   const currentUser = React.useContext(CurrentUserContext);
-
-  /*React.useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getAllCards()])
-      .then(([userArr, initialCards]) => {
-        setUserName(userArr.name);
-        setUserDescription(userArr.about);
-        setUserAvatar(userArr.avatar);
-        setCards(initialCards);
-        console.log(initialCards);
-      })
-      .catch((err) => {
-        console.error(`Ошибка: ${err}`);
-      });
-  }, []);*/
 
   return (
     <main className="content">
