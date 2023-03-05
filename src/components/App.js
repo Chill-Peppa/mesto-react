@@ -9,6 +9,7 @@ import AddPlacePopup from "./AddPlacePopup";
 import ConfirmDeletePopup from "./ConfirmDeletePopup";
 import { api } from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { RenderLoadingContext } from "../contexts/RenderLoadingContext";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -51,10 +52,6 @@ function App() {
     setSelectedCard(card);
   };
 
-  const handleLoading = () => {
-    setIsLoading(true);
-  };
-
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
   };
@@ -93,7 +90,7 @@ function App() {
   };
 
   const handleCardDelete = (card) => {
-    handleLoading();
+    setIsLoading(true);
     api
       .deleteCard(card._id)
       .then(() => {
@@ -109,7 +106,7 @@ function App() {
   };
 
   const handleUpdateUser = (data) => {
-    handleLoading();
+    setIsLoading(true);
     api
       .updateUserInfo(data)
       .then((data) => {
@@ -125,7 +122,7 @@ function App() {
   };
 
   const handleUpdateAvatar = (data) => {
-    handleLoading();
+    setIsLoading(true);
     api
       .sendUserAvatar(data)
       .then((data) => {
@@ -141,7 +138,7 @@ function App() {
   };
 
   const handleAddPlaceSubmit = (newCard) => {
-    handleLoading();
+    setIsLoading(true);
     api
       .postCard(newCard)
       .then((newCard) => {
@@ -157,55 +154,53 @@ function App() {
   };
 
   return (
-    <CurrentUserContext.Provider value={currentUser}>
-      <div className="App">
-        <div className="page">
-          <Header />
-          <Main
-            onEditProfile={handleEditProfileClick}
-            onAddPlace={handleAddPlaceClick}
-            onEditAvatar={handleEditAvatarClick}
-            onCardClick={handleCardClick}
-            onCardLike={handleCardLike}
-            onCardDelete={handleDeleteClick}
-            cards={cards}
-          />
-          <Footer />
-          <EditProfilePopup
-            isOpen={isEditProfilePopupOpen}
-            onClose={closeAllPopups}
-            onUpdateUser={handleUpdateUser}
-            isLoading={isLoading}
-          />
+    <RenderLoadingContext.Provider value={isLoading}>
+      <CurrentUserContext.Provider value={currentUser}>
+        <div className="App">
+          <div className="page">
+            <Header />
+            <Main
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onEditAvatar={handleEditAvatarClick}
+              onCardClick={handleCardClick}
+              onCardLike={handleCardLike}
+              onCardDelete={handleDeleteClick}
+              cards={cards}
+            />
+            <Footer />
+            <EditProfilePopup
+              isOpen={isEditProfilePopupOpen}
+              onClose={closeAllPopups}
+              onUpdateUser={handleUpdateUser}
+            />
 
-          <AddPlacePopup
-            isOpen={isAddPlacePopupOpen}
-            onClose={closeAllPopups}
-            onAddPlace={handleAddPlaceSubmit}
-            isLoading={isLoading}
-          />
+            <AddPlacePopup
+              isOpen={isAddPlacePopupOpen}
+              onClose={closeAllPopups}
+              onAddPlace={handleAddPlaceSubmit}
+            />
 
-          <ImagePopup
-            isOpen={isCardPopupOpen}
-            onClose={closeAllPopups}
-            card={selectedCard}
-          />
-          <EditAvatarPopup
-            isOpen={isEditAvatarPopupOpen}
-            onClose={closeAllPopups}
-            onUpdateAvatar={handleUpdateAvatar}
-            isLoading={isLoading}
-          />
-          <ConfirmDeletePopup
-            isOpen={isConfirmPopupOpen}
-            onClose={closeAllPopups}
-            card={selectedCard}
-            onDeleteCard={handleCardDelete}
-            isLoading={isLoading}
-          />
+            <ImagePopup
+              isOpen={isCardPopupOpen}
+              onClose={closeAllPopups}
+              card={selectedCard}
+            />
+            <EditAvatarPopup
+              isOpen={isEditAvatarPopupOpen}
+              onClose={closeAllPopups}
+              onUpdateAvatar={handleUpdateAvatar}
+            />
+            <ConfirmDeletePopup
+              isOpen={isConfirmPopupOpen}
+              onClose={closeAllPopups}
+              card={selectedCard}
+              onDeleteCard={handleCardDelete}
+            />
+          </div>
         </div>
-      </div>
-    </CurrentUserContext.Provider>
+      </CurrentUserContext.Provider>
+    </RenderLoadingContext.Provider>
   );
 }
 

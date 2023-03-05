@@ -1,4 +1,5 @@
 import React from "react";
+import { RenderLoadingContext } from "../contexts/RenderLoadingContext";
 
 function PopupWithForm({
   name,
@@ -8,9 +9,10 @@ function PopupWithForm({
   children,
   btnText,
   onSubmit,
-  isLoading,
   loadingText,
 }) {
+  const isLoading = React.useContext(RenderLoadingContext);
+
   return (
     <div
       className={`popup popup_type_${name} ${isOpen ? "popup_opened" : " "}`}
