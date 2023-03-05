@@ -1,7 +1,7 @@
 import React from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-function Card({ card, onCardClick, onCardLike }) {
+function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   //подписали на контекст
   const currentUser = React.useContext(CurrentUserContext);
 
@@ -28,6 +28,11 @@ function Card({ card, onCardClick, onCardLike }) {
     console.log("на меня кликнули");
   }
 
+  function handleDeleteClick() {
+    onCardDelete(card);
+    console.log("на меня кликнули");
+  }
+
   return (
     <li className="element">
       <img
@@ -36,7 +41,11 @@ function Card({ card, onCardClick, onCardLike }) {
         alt={card.name}
         onClick={handleClick}
       />
-      <button type="button" className={cardDeleteButtonClassName} />
+      <button
+        type="button"
+        className={cardDeleteButtonClassName}
+        onClick={handleDeleteClick}
+      />
       <div className="element-container">
         <h2 className="element-container__name">{card.name}</h2>
         <div className="element-container__like-box">

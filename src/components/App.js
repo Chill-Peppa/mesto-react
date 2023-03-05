@@ -66,6 +66,7 @@ function App() {
   };
 
   //добавим новые функции пр.11
+  //проверка лайка + запрос
   const handleCardLike = (card) => {
     // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some((like) => like._id === currentUser._id);
@@ -83,6 +84,20 @@ function App() {
       });
   };
 
+  //поддержка удаления карточки
+  const handleCardDelete = (card) => {
+    api
+      .deleteCard(card._id)
+      .then(() => {
+        setCards((state) =>
+          state.filter((c) => (c._id === card._id ? "" : c))
+        ).then(() => closeAllPopups());
+      })
+      .catch((err) => {
+        console.error(`Ошибка: ${err}`);
+      });
+  };
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
@@ -94,6 +109,7 @@ function App() {
             onEditAvatar={handleEditAvatarClick}
             onCardClick={handleCardClick}
             onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
             cards={cards}
           />
           <Footer />

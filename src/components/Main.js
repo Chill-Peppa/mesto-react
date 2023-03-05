@@ -66,6 +66,7 @@ function Main(props) {
                 key={item._id}
                 onCardClick={props.onCardClick}
                 onCardLike={props.onCardLike}
+                onCardDelete={props.onCardDelete}
               />
             );
           })}
