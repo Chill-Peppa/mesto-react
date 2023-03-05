@@ -66,8 +66,23 @@ class Api {
     });
   }
 
+  //объединяем метод удаления и добавления лайка в один
+  changeLikeCardStatus(id, isLiked) {
+    if (isLiked) {
+      return this._request(`${this._url}/cards/${id}/likes`, {
+        headers: this._headers,
+        method: "DELETE",
+      });
+    } else {
+      return this._request(`${this._url}/cards/${id}/likes `, {
+        headers: this._headers,
+        method: "PUT",
+      });
+    }
+  }
+
   //метод чтобы поставить лайк
-  likeCard(id) {
+  /*likeCard(id) {
     return this._request(`${this._url}/cards/${id}/likes `, {
       headers: this._headers,
       method: "PUT",
@@ -80,7 +95,7 @@ class Api {
       headers: this._headers,
       method: "DELETE",
     });
-  }
+  }*/
 }
 
 export const api = new Api({
